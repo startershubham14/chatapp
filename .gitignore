@@ -1,0 +1,638 @@
+# Chat Application .gitignore
+
+# ============================================================================
+# ENVIRONMENT & SECRETS
+# ============================================================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+.envrc
+
+# API Keys and secrets
+secrets/
+config/secrets.json
+*.pem
+*.key
+*.crt
+
+# ============================================================================
+# PYTHON/BACKEND (FastAPI)
+# ============================================================================
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+.pdm-python
+.pdm-build/
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.venv/
+chatapp-env/
+backend-env/
+
+# Alembic migration files (keep structure, ignore versions)
+backend/alembic/versions/*.py
+!backend/alembic/versions/__init__.py
+
+# ============================================================================
+# NODE.JS/FRONTEND (React)
+# ============================================================================
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# Dependency directories
+jspm_packages/
+
+# Snowpack dependency directory (https://snowpack.dev/)
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+
+# Rollup.js default build output
+dist/
+
+# Uncomment the public line in if your project uses Gatsby and not Next.js
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# vuepress v2.x temp and cache directory
+.temp
+.cache
+
+# Docusaurus cache and generated files
+.docusaurus
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# React build output
+frontend/build/
+frontend/dist/
+
+# Create React App
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ============================================================================
+# DOCKER
+# ============================================================================
+# Docker volumes
+docker-data/
+postgres-data/
+redis-data/
+
+# Docker override files
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose.dev.yml
+
+# Container logs
+*.log
+logs/
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+# PostgreSQL
+*.sql
+*.dump
+*.backup
+pgdata/
+postgres/
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Database migrations (keep structure)
+migrations/versions/
+!migrations/versions/.gitkeep
+
+# Redis dumps
+dump.rdb
+*.rdb
+
+# ============================================================================
+# AI/ML MODELS & DATA
+# ============================================================================
+# Model files
+*.pkl
+*.pickle
+*.joblib
+*.model
+*.bin
+*.h5
+*.hdf5
+*.ckpt
+*.pth
+*.pt
+*.onnx
+
+# Large model directories
+models/
+pretrained_models/
+checkpoints/
+model_cache/
+
+# Hugging Face cache
+.cache/huggingface/
+transformers_cache/
+
+# Training data and datasets
+datasets/
+data/raw/
+data/processed/
+training_data/
+*.csv
+*.json
+*.parquet
+
+# Jupyter notebooks checkpoints
+notebooks/.ipynb_checkpoints/
+
+# ML experiment tracking
+mlruns/
+.mlflow/
+wandb/
+tensorboard_logs/
+
+# ============================================================================
+# MEDIA & UPLOADS
+# ============================================================================
+# User uploaded files
+uploads/
+media/
+static/media/
+user_uploads/
+profile_pictures/
+chat_files/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Image processing cache
+image_cache/
+thumbnails/
+processed_images/
+
+# ============================================================================
+# DEVELOPMENT TOOLS
+# ============================================================================
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vim/
+.emacs.d/
+.sublime-*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# ============================================================================
+# TESTING
+# ============================================================================
+# Test results
+test-results/
+coverage-reports/
+.coverage
+htmlcov/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Jest
+coverage/
+
+# ============================================================================
+# DEPLOYMENT & HOSTING
+# ============================================================================
+# Vercel
+.vercel
+
+# Netlify
+.netlify
+
+# Railway
+.railway/
+
+# Heroku
+.heroku/
+
+# Build artifacts
+build/
+dist/
+out/
+
+# Deployment scripts (keep templates)
+deploy.sh
+deploy_prod.sh
+!deploy.template.sh
+
+# SSL certificates
+*.crt
+*.key
+*.pem
+ssl/
+
+# ============================================================================
+# NGROK & TUNNELING
+# ============================================================================
+# Ngrok
+ngrok
+ngrok.exe
+*.ngrok.yml
+.ngrok2/
+
+# Tunneling logs
+tunnel.log
+ngrok.log
+
+# ============================================================================
+# MONITORING & LOGS
+# ============================================================================
+# Application logs
+*.log
+logs/
+log/
+app.log
+error.log
+access.log
+debug.log
+
+# PM2 logs
+.pm2/
+
+# System logs
+syslog
+
+# ============================================================================
+# DOCUMENTATION
+# ============================================================================
+# Generated documentation
+docs/build/
+docs/_build/
+site/
+
+# Keep important docs
+!README.md
+!SETUP.md
+!API.md
+!DEPLOYMENT.md
+!TECHNICAL_REPORT.md
+
+# ============================================================================
+# ACADEMIC PROJECT FILES
+# ============================================================================
+# Keep academic documentation
+!PROJECT_REPORT.pdf
+!PRESENTATION.pptx
+!DEMO_VIDEO.mp4
+!ARCHITECTURE_DIAGRAMS/
+
+# Temporary academic files
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.toc
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+
+# Lock files
+package-lock.json
+yarn.lock
+Pipfile.lock
+poetry.lock
+
+# Cache directories
+.cache/
+cache/
+.parcel-cache/
+
+# Temporary development files
+scratch/
+sandbox/
+playground/
+test_files/
+
+# Local configuration overrides
+local_config.py
+local_settings.py
+config.local.js
+
+# Performance monitoring
+.clinic/
+
+# Security scanning results
+.snyk
+security-report.json
+
+# ============================================================================
+# PROJECT SPECIFIC
+# ============================================================================
+# Chat application specific files
+chat_history_exports/
+user_data_exports/
+message_backups/
+
+# AI model outputs
+generated_responses/
+model_outputs/
+
+# Performance test results
+load_test_results/
+benchmark_results/
+
+# User testing feedback
+user_feedback/
+usability_tests/
+
+# ============================================================================
+# KEEP THESE FILES (Important for project)
+# ============================================================================
+# Configuration templates
+!config/config.template.py
+!.env.example
+!docker-compose.example.yml
+
+# Documentation
+!docs/README.md
+!docs/API_GUIDE.md
+!docs/DEPLOYMENT_GUIDE.md
+!docs/USER_MANUAL.md
+
+# Scripts
+!scripts/setup.sh
+!scripts/deploy.sh
+!scripts/test.sh
+
+# Academic deliverables
+!academic/
+!presentations/
+!reports/
