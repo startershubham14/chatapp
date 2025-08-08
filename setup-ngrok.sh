@@ -1,71 +1,96 @@
 #!/bin/bash
 
-echo "=== Chat App Ngrok Setup ==="
-echo ""
-echo "This script will help you set up ngrok for testing your chat application."
-echo ""
+# Ngrok Setup Script for Chat App
+# This script sets up ngrok tunnels for both frontend and backend
+
+echo "🚀 Setting up ngrok tunnels for Chat App..."
 
 # Check if ngrok is installed
 if ! command -v ngrok &> /dev/null; then
-    echo "❌ ngrok is not installed."
-    echo "Please install ngrok from: https://ngrok.com/download"
-    echo ""
-    echo "After installation, you'll need to authenticate with:"
-    echo "ngrok config add-authtoken YOUR_AUTH_TOKEN"
+    echo "❌ ngrok is not installed. Please install it from https://ngrok.com/download"
     exit 1
 fi
-
-echo "✅ ngrok is installed"
-echo ""
 
 # Check if ngrok is authenticated
 if ! ngrok config check &> /dev/null; then
-    echo "❌ ngrok is not authenticated."
-    echo "Please run: ngrok config add-authtoken YOUR_AUTH_TOKEN"
-    echo "Get your auth token from: https://dashboard.ngrok.com/get-started/your-authtoken"
+    echo "❌ ngrok is not authenticated. Please run: ngrok config add-authtoken YOUR_AUTH_TOKEN"
     exit 1
 fi
 
-echo "✅ ngrok is authenticated"
-echo ""
+echo "✅ ngrok is installed and authenticated"
 
-echo "Starting ngrok tunnel for frontend (port 3000)..."
-echo "This will create a public URL for your React app."
-echo ""
+# Kill any existing ngrok processes
+echo "🔄 Stopping existing ngrok processes..."
+pkill ngrok 2>/dev/null || true
+sleep 2
 
-# Start ngrok for frontend
-ngrok http 3000 --log=stdout &
-NGROK_PID=$!
+# Start ngrok tunnel for frontend (port 3000)
+echo "🌐 Starting ngrok tunnel for frontend (port 3000)..."
+ngrok http 3000 --log=stdout > ngrok-frontend.log 2>&1 &
+FRONTEND_PID=$!
 
-# Wait a moment for ngrok to start
+# Wait a moment for the tunnel to start
 sleep 3
 
-# Get the ngrok URL
-NGROK_URL=$(curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"[^"]*"' | head -1 | cut -d'"' -f4)
-
-if [ -z "$NGROK_URL" ]; then
-    echo "❌ Failed to get ngrok URL. Please check if ngrok is running properly."
+# Get the frontend tunnel URL
+FRONTEND_URL=$(curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"[^"]*"' | head -1 | cut -d'"' -f4)
+if [ -z "$FRONTEND_URL" ]; then
+    echo "❌ Failed to get frontend tunnel URL"
     exit 1
 fi
 
-echo "✅ Ngrok tunnel started!"
-echo "🌐 Frontend URL: $NGROK_URL"
-echo ""
+echo "✅ Frontend tunnel: $FRONTEND_URL"
 
-echo "Now you need to update your docker-compose.yml with the new ngrok URL:"
-echo ""
-echo "Update the ALLOWED_ORIGINS environment variable in docker-compose.yml:"
-echo "  - ALLOWED_ORIGINS=http://localhost:3000,$NGROK_URL"
-echo ""
+# Start ngrok tunnel for backend (port 8000)
+echo "🔧 Starting ngrok tunnel for backend (port 8000)..."
+ngrok http 8000 --log=stdout > ngrok-backend.log 2>&1 &
+BACKEND_PID=$!
 
-echo "Then restart your backend:"
-echo "  docker-compose restart backend"
-echo ""
+# Wait a moment for the tunnel to start
+sleep 3
 
-echo "You can now access your chat app at: $NGROK_URL"
-echo ""
-echo "To stop ngrok, press Ctrl+C or run: kill $NGROK_PID"
-echo ""
+# Get the backend tunnel URL
+BACKEND_URL=$(curl -s http://localhost:4040/api/tunnels | grep -o '"public_url":"[^"]*"' | tail -1 | cut -d'"' -f4)
+if [ -z "$BACKEND_URL" ]; then
+    echo "❌ Failed to get backend tunnel URL"
+    exit 1
+fi
 
-# Keep the script running
-wait $NGROK_PID
+echo "✅ Backend tunnel: $BACKEND_URL"
+
+# Update docker-compose.yml with the new URLs
+echo "📝 Updating docker-compose.yml with ngrok URLs..."
+
+# Create a backup of the original file
+cp docker-compose.yml docker-compose.yml.backup
+
+# Update the ALLOWED_ORIGINS in docker-compose.yml
+sed -i.bak "s|ALLOWED_ORIGINS=.*|ALLOWED_ORIGINS=http://localhost:3000,$FRONTEND_URL|" docker-compose.yml
+
+# Update the frontend environment variables
+sed -i.bak "s|REACT_APP_API_URL=.*|REACT_APP_API_URL=$BACKEND_URL|" docker-compose.yml
+sed -i.bak "s|REACT_APP_WS_URL=.*|REACT_APP_WS_URL=${BACKEND_URL/http/ws}|" docker-compose.yml
+
+echo "✅ Updated docker-compose.yml"
+
+# Restart the containers to apply the new configuration
+echo "🔄 Restarting containers..."
+docker-compose down
+docker-compose up -d
+
+echo ""
+echo "🎉 Ngrok setup complete!"
+echo ""
+echo "📱 Frontend URL: $FRONTEND_URL"
+echo "🔧 Backend URL: $BACKEND_URL"
+echo ""
+echo "📋 Instructions:"
+echo "1. Open $FRONTEND_URL in your browser"
+echo "2. Register/login with the app"
+echo "3. Test the chat functionality"
+echo ""
+echo "📊 Monitor tunnels at: http://localhost:4040"
+echo "📝 Logs: ngrok-frontend.log and ngrok-backend.log"
+echo ""
+echo "🛑 To stop: pkill ngrok && docker-compose down"
+echo "🔄 To restart: ./setup-ngrok.sh"

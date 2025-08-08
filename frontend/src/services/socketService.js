@@ -5,7 +5,20 @@
 
 import { io } from 'socket.io-client';
 
-const WS_URL = process.env.REACT_APP_WS_URL || 'ws://localhost:8000';
+// Dynamically determine WebSocket URL based on current domain
+const getWsUrl = () => {
+  const currentHost = window.location.hostname;
+  
+  // If accessing through ngrok, use localhost for WebSocket connections
+  if (currentHost.includes('ngrok-free.app')) {
+    return 'ws://localhost:8000';
+  }
+  
+  // Otherwise use the environment variable or default
+  return process.env.REACT_APP_WS_URL || 'ws://localhost:8000';
+};
+
+const WS_URL = getWsUrl();
 
 class SocketService {
   constructor() {

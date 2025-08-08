@@ -28,7 +28,7 @@ services:
       - DATABASE_URL=postgresql://chatapp_user:chatapp_password@db:5432/chatapp
       - JWT_SECRET_KEY=your-super-secret-jwt-key-change-in-production
       - REDIS_URL=redis://redis:6379
-      - ALLOWED_ORIGINS=http://localhost:3000,https://9428ed00d914.ngrok-free.app
+      - ALLOWED_ORIGINS=http://localhost:3000,https://81e8d419db2a.ngrok-free.app
       - CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
       - CLOUDINARY_API_KEY=your-cloudinary-api-key
       - CLOUDINARY_API_SECRET=your-cloudinary-api-secret
@@ -68,6 +68,7 @@ services:
     environment:
       - REACT_APP_API_URL=http://localhost:8000
       - REACT_APP_WS_URL=ws://localhost:8000
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
     command: npm start
 
 volumes:

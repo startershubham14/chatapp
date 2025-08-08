@@ -5,7 +5,21 @@
 
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+// Dynamically determine API URL based on current domain
+const getApiBaseUrl = () => {
+  const currentHost = window.location.hostname;
+  const currentProtocol = window.location.protocol;
+  
+  // If accessing through ngrok, use localhost for API calls
+  if (currentHost.includes('ngrok-free.app')) {
+    return 'http://localhost:8000';
+  }
+  
+  // Otherwise use the environment variable or default
+  return process.env.REACT_APP_API_URL || 'http://localhost:8000';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 class AuthService {
   constructor() {

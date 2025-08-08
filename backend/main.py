@@ -34,7 +34,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Real-time Chat API", version="1.0.0")
 
 # Get allowed origins from environment variable, default to localhost for local testing
-allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+allowed_origins_str = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,https://81e8d419db2a.ngrok-free.app")
 allowed_origins = allowed_origins_str.split(',')
 
 # CORS middleware
@@ -42,8 +42,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,  # Support multiple origins including ngrok
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Socket.IO server
@@ -62,6 +63,11 @@ security = HTTPBearer()
 abuse_detector = AbuseDetector()
 
 # ==================== API ROUTES ====================
+
+@app.options("/api/auth/register")
+def register_options():
+    """Handle OPTIONS request for register endpoint"""
+    return {"message": "OK"}
 
 @app.post("/api/auth/register", response_model=UserResponse)
 def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
@@ -96,6 +102,11 @@ def register_user(user_data: UserCreate, db: Session = Depends(get_db)):
         profile_image_url=new_user.profile_image_url,
         created_at=new_user.created_at
     )
+
+@app.options("/api/auth/login")
+def login_options():
+    """Handle OPTIONS request for login endpoint"""
+    return {"message": "OK"}
 
 @app.post("/api/auth/login", response_model=Token)
 def login_user(user_data: UserLogin, db: Session = Depends(get_db)):
